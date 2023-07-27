@@ -30,7 +30,7 @@ func deleteFileIfOlder(path string, info fs.FileInfo, err error) error {
 
 	canSkipDir = true
 
-	creationTime := time.Unix(0, info.Sys().(*syscall.Win32FileAttributeData).CreationTime.Nanoseconds())
+	creationTime := time.Unix(info.Sys().(*syscall.Stat_t).Ctim.Sec, 0)
 	if creationTime.Before(args.cutoffTime) {
 		removeErr := os.Remove(path)
 		if removeErr != nil {
